@@ -37,10 +37,9 @@ if __name__ == "__main__":
         print(f'Company kept:     % {money_score}')
         score = round((1 - time_score) + money_score, 2)
         print(f'Score:              {score}')
-        if score > highest_score:
+        if score >= highest_score:
             highest_score = score
             r = i
     print(f'______________________')
-    print(f'Highest score: {score}')
+    print(f'Highest score: {highest_score}')
     print(f'Round: {r}')
-    
