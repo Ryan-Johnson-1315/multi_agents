@@ -15,6 +15,13 @@ def create_tasks(config: dict) -> task.Task:
     return tasks
 
 
+# You should be able to start the audio call now.
+# accoring the the vs-extension page I need to 
+# reload vs code. 
+
+# Why don't you start one and send me a link?
+
+
 def create_workers(config: dict) -> worker.Worker:
     workers = []
     time_taken = config['time_start'] 
