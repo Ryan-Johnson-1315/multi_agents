@@ -55,9 +55,29 @@
 # '''
 #     log.write(final)
 #     print(final)
-from rl_env.gym_work.envs.WorkEnv import WorkEnv
+import gym
+import gym_proj
+from model.DQN import *
+import json
+from argparse import ArgumentParser
+import os
 
-if __name__ == "__main__":
-    t = WorkEnv([])
-    t.reset()
-    print(f'Success')
+
+parser = ArgumentParser()
+parser.add_argument(
+    '--model_config', 
+    help='Path to json file containing the conifgs for the model',
+    required=True
+)
+args = parser.parse_args()
+config = json.load(open(args.model_config, 'r'))
+model = DQNAgent(len(config['inputs']), config['agents'])
+
+
+env = gym.make('proj-v0')
+print(env.action_space)
+
+# if __name__ == "__main__":
+#     t = WorkEnv([])
+#     t.reset()
+#     print(f'Success')

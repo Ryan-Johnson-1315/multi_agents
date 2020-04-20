@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='gym_work',
+    name='gym_proj',
     version='0.0.1',
     install_requires=['gym']
 )

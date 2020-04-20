@@ -1,5 +1,4 @@
 import random
-from typing import List
 
 # Any kind of task
 class Task:
@@ -66,5 +65,3 @@ def create_workers(config: dict) -> Worker:
         workers.append(w)
     return workers
 
-
-_ALL_WORKERS_ = List[Worker]
