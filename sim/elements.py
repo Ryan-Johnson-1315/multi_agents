@@ -11,6 +11,9 @@ class Task:
     
     def get_time(self):
         return self._time_to_complete
+    
+    def to_arr(self):
+        return [self._time_to_complete, self._available_money]
 
     def get_rank(self):
         return self._rank
@@ -40,7 +43,7 @@ Time to finish the job is:  % {self._time * 100} of time
 Cost to pay me for the job: % {self._pay * 100} of cost
 """
 
-def create_tasks(config: dict) -> Task:
+def create_tasks(config: dict):
     tasks = []
     for i in range(0, config['total'] + 1):
         t_ratio = config['time_money_ratio']
@@ -53,7 +56,7 @@ def create_tasks(config: dict) -> Task:
     return tasks
 
 
-def create_workers(config: dict) -> Worker:
+def create_workers(config: dict):
     workers = []
     time_taken = config['time_start'] 
     money_cost = config['money_start']

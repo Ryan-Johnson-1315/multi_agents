@@ -9,6 +9,7 @@ import keras
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Conv2D, LSTM, Dropout, AlphaDropout, PReLU
 from keras.optimizers import Adam, RMSprop, Nadam
+from keras.callbacks import History
 from keras import backend as Kpredict
 import tensorflow as tf
 
@@ -16,26 +17,37 @@ from collections import deque
 import random
 from tqdm import tqdm
 
+class LossHistory(keras.callbacks.Callback):
+    def on_train_begin(self, logs={}):
+        self.losses = []
+
+    def on_batch_end(self, batch, logs={}):
+        self.losses.append(logs.get('loss'))
+
 """
     Notes:
-        state_size, is the input to the model
-        
+        state_size: 5
+            0: Current Money Made
+            1: Time Left
+            2: Tasks left
+            3: Task Time
+            4: Task Money
 """
 
 class DQNAgent:
-    def __init__(self, state_size, num_agenst):
-        self._state_size = state_size
-        self._num_agents = num_agenst
-        self._memory = deque(maxlen=2000)
+    def __init__(self, num_workers, num_steps, batch_size=16):
+        self._state_size = 1
+        self._num_agents = num_workers # output
+        self._memory = deque(maxlen=num_steps)
         self._gamma = 0.95    # discount rate
         self._epsilon = 1.0  # exploration rate
         self._epsilon_min = 0.1
         self._epsilon_decay = 0.995
         self._learning_rate = 0.001
-        self._batch_size = 32
+        self._batch_size = batch_size
         self._model = self._build_model()
         self._target_model = self._build_model()
-        self._update_target_model()
+        self.update_target_model()
         self._count = 0
         self._is_finished = False
         self._loss = None
@@ -60,7 +72,7 @@ class DQNAgent:
         # model.compile(loss='binary_crossentropy', optimizer=Nadam(lr=self._learning_rate))
         return model
 
-    def _update_target_model(self):
+    def update_target_model(self):
         # copy weights from model to target_model
         self._target_model.set_weights(self._model.get_weights())
 
@@ -69,34 +81,41 @@ class DQNAgent:
 
     def predict(self, state): # used to be act
         action = None
-        if np.random.rand() <= self._epsilon:
+        r = np.random.rand()
+        if r <= self._epsilon:
             action = random.randrange(self._num_agents)
-
         else:
             act_values = self._model.predict(state)
             action = np.argmax(act_values[0])
-
         return action
 
-    def fit(self, batch_size):  # used to be replay
+    def train(self):  # used to be replay
         # DQN
-        minibatch = random.sample(self._memory, batch_size)
+        minibatch = random.sample(self._memory, self._batch_size)
         for state, action, reward, next_state, done in minibatch:
             target = reward
+            # print(f'State: {state}')
+            # print(f'action: {action}')
+            # print(f'reward: {reward}')
+            # print(f'next_state: {next_state}')
+            # print(f'done: {done}')
+            
             if not done:
+                # next_state = np.reshape(next_state, [1, self._state_size])
                 Q_next = self._model.predict(next_state)[0]
                 target = (reward + self._gamma *np.amax(Q_next))
         
             target_f = self._model.predict(state)
             target_f[0][action] = target
-            #train network
-            self._model.fit(state, target_f, epochs=1, verbose=0)
 
+            #train network
+            history = LossHistory()
+            history = self._model.fit(state, target_f, epochs=1, verbose=0, callbacks=[history])
+        # print(history.history)
         self._decay_epsilon()
 
     def _decay_epsilon(self):
         self._count += 1
-        # if self._count % 20 == 0 and self._epsilon > self._epsilon_min:
         if self._epsilon > self._epsilon_min:
             self._epsilon *= self._epsilon_decay
 

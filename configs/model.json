@@ -1,7 +1,3 @@
 {
-    "inputs": [
-        "time_left",
-        "curent_money"
-    ],
-    "agents": 5
+    "empty": ""
 }

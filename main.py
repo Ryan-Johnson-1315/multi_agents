@@ -57,27 +57,91 @@
 #     print(final)
 import gym
 import gym_proj
-from model.DQN import *
-import json
-from argparse import ArgumentParser
 import os
+import numpy as np
+# My stuff
+from model.DQN import *
+from sim.utils import *
+from gym_proj.env.proj_env import *
 
 
-parser = ArgumentParser()
-parser.add_argument(
-    '--model_config', 
-    help='Path to json file containing the conifgs for the model',
-    required=True
-)
-args = parser.parse_args()
-config = json.load(open(args.model_config, 'r'))
-model = DQNAgent(len(config['inputs']), config['agents'])
+if __name__ == "__main__":
+    args = parse_args()
+    m_config, e_config = load_configs(args)
+    workers, tasks = config_sim(e_config)
 
 
-env = gym.make('proj-v0')
-print(env.action_space)
+    env = ProjEnv(workers, len(tasks))
+    model = DQNAgent(len(workers), args.steps)
 
-# if __name__ == "__main__":
-#     t = WorkEnv([])
-#     t.reset()
-#     print(f'Success')
+    # Notes:
+    #     state_size: 4
+    #         0: Current Money Made
+    #         1: Time Left
+    #         2: Tasks left
+    #         3: Current Task
+    for epoch in tqdm(range(args.epochs)):
+        overall_reward = 0
+        _, tasks = config_sim(e_config) # Workers are alwasy the same
+        next_task = tasks.pop()
+        curr_state = np.asarray(env.reset() + next_task.to_arr(), dtype=np.float32)
+
+
+        # worker_id is the action
+        worker_id = model.predict(curr_state) # Start with a brand new state 
+        for i in range(args.steps):
+            next_state, reward, done = env.step(worker_id, next_task)
+            overall_reward += reward
+            next_task = tasks.pop()
+            next_state += next_task.to_arr()
+            next_state = np.asarray(next_state, dtype=np.float32)
+
+
+            model.remember(curr_state, worker_id, overall_reward, next_state, done)
+            if done:
+                model.update_target_model()
+                break
+            curr_state = next_state
+            curr_state = np.asarray(curr_state, dtype=np.float32)
+            worker_id = model.predict(curr_state)
+        model.train()
+
+
+print(f'Evaluating')
+log = open('ouput.log', 'w')
+for n in tqdm(range(0, 5)):
+    _, tasks = config_sim(e_config)
+    # Evaluate
+    next_task = tasks.pop()
+    curr_state = np.asarray(env.reset() + next_task.to_arr(), dtype=np.float32)
+
+    worker_id = model.predict(curr_state) # Start with a brand new state 
+    max_money = 0
+    max_time = 0
+    for i in range(args.steps):
+        log.write(f'Current Task:\n')
+        log.write(f'\tMoney ${next_task.get_money()}:\n')
+        log.write(f'\tTime {next_task.get_time()}:\n')
+        log.write(f'Worker: {worker_id}\n')
+        log.write(f'Money earned: ${round(curr_state[0], 2)}\n')
+        log.write(f'Time Left: {curr_state[1]}\n')
+        log.write(f'Tasks Left: {curr_state[2]}\n')
+
+        log.write('==========================\n')
+        next_state, reward, done = env.step(worker_id, next_task)
+        next_task = tasks.pop()
+        next_state += next_task.to_arr()
+        next_state = np.asarray(next_state, dtype=np.float32)
+
+        max_time += next_task.get_time()
+        max_money += next_task.get_money()
+
+
+        if done:
+            break
+        curr_state = next_state
+        curr_state = np.asarray(curr_state, dtype=np.float32)
+        worker_id = model.predict(curr_state)
+    log.write(f'Max money: ${max_money}\n')
+    log.write(f'Max time: {max_time}\n')
+    log.write('==============================================================================\n')
