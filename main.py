@@ -59,6 +59,7 @@ import gym
 import gym_proj
 import os
 import numpy as np
+from collections import defaultdict
 # My stuff
 from model.DQN import *
 from sim.utils import *
@@ -109,6 +110,7 @@ if __name__ == "__main__":
 
 print(f'Evaluating')
 log = open('ouput.log', 'w')
+stats = defaultdict(list)
 for n in tqdm(range(0, 5)):
     _, tasks = config_sim(e_config)
     # Evaluate
@@ -126,8 +128,9 @@ for n in tqdm(range(0, 5)):
         log.write(f'Money earned: ${round(curr_state[0], 2)}\n')
         log.write(f'Time Left: {curr_state[1]}\n')
         log.write(f'Tasks Left: {curr_state[2]}\n')
-
         log.write('==========================\n')
+
+
         next_state, reward, done = env.step(worker_id, next_task)
         next_task = tasks.pop()
         next_state += next_task.to_arr()
@@ -135,6 +138,8 @@ for n in tqdm(range(0, 5)):
 
         max_time += next_task.get_time()
         max_money += next_task.get_money()
+
+        stats[f'{worker_id}'].append(next_task.to_arr())
 
 
         if done:
@@ -145,3 +150,21 @@ for n in tqdm(range(0, 5)):
     log.write(f'Max money: ${max_money}\n')
     log.write(f'Max time: {max_time}\n')
     log.write('==============================================================================\n')
+
+json.dump(stats, open('configs/all_stats.json', 'w'))
+
+data = {}
+for key in sorted(stats):
+    time = 0
+    money = 0
+    for d in stats[key]:
+        time += d[0]
+        money += d[1]
+    data[f'worker_{key}'] = {
+        'Average Time': time/len(stats[key]), 
+        'Average Money': money/len(stats[key]), 
+        'Num Tasks': len(stats[key]),
+        'Total Money': money,
+        'Total Time': time
+    }
+json.dump(data, open('configs/averages.json', 'w'))

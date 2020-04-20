@@ -2,15 +2,15 @@
     "workers": {
         "total": 5,
         "time_start": 1.0,        "// takes n percent of the time task has allotted": "",
-        "time_decrement": 0.15,   "// next worker will take n% less of the time allotted":"",
-        "money_start": 0.1,       "// takes home 10% of the pay": "",
-        "money_increment": 0.08,  "// next worker will take n% of the pay": ""
+        "time_decrement": 0.13,   "// next worker will take n% less of the time allotted":"",
+        "money_start": 0.5,       "// takes home 10% of the pay": "",
+        "money_increment": 0.12,  "// next worker will take n% of the pay": ""
     }, 
     "tasks": {
-        "total": 300,
+        "total": 600,
         "time_money_ratio": {
-            "min": 3.75, "// % of an hour": "",
-            "max": 5.55
+            "min": 0.5, "// % of an hour": "",
+            "max": 2.55
         },
         "money": {
             "min": 35,

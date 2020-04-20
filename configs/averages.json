@@ -1,0 +1,44 @@
+{
+    "worker_0": {
+        "Average Time": 1.5312749003984067,
+        "Average Money": 119.479203187251,
+        "Num Tasks": 251,
+        "Total Money": 29989.280000000002,
+        "Total Time": 384.3500000000001
+    },
+    "worker_1": {
+        "Average Time": 1.5423529411764698,
+        "Average Money": 122.65141176470587,
+        "Num Tasks": 255,
+        "Total Money": 31276.109999999997,
+        "Total Time": 393.2999999999998
+    },
+    "worker_2": {
+        "Average Time": 1.5312355212355195,
+        "Average Money": 117.46884169884173,
+        "Num Tasks": 259,
+        "Total Money": 30424.430000000008,
+        "Total Time": 396.5899999999996
+    },
+    "worker_3": {
+        "Average Time": 1.515524590163933,
+        "Average Money": 118.41524590163954,
+        "Num Tasks": 1220,
+        "Total Money": 144466.60000000024,
+        "Total Time": 1848.9399999999982
+    },
+    "worker_4": {
+        "Average Time": 1.5471102661596938,
+        "Average Money": 118.2763117870722,
+        "Num Tasks": 263,
+        "Total Money": 31106.66999999999,
+        "Total Time": 406.8899999999995
+    },
+    "worker_5": {
+        "Average Time": 1.5101587301587298,
+        "Average Money": 116.15492063492057,
+        "Num Tasks": 252,
+        "Total Money": 29271.039999999983,
+        "Total Time": 380.5599999999999
+    }
+}

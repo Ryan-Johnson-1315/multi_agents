@@ -66,5 +66,6 @@ def create_workers(config: dict):
         money_cost += config['money_increment']
         time_taken -= config['time_decrement']
         workers.append(w)
+        print(w)
     return workers
 
