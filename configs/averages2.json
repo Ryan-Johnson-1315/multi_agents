@@ -1,0 +1,222 @@
+{
+    "sim_test_0": {
+        "worker_0": {
+            "Total Time": 599.2100000000004,
+            "Average Time": 1.5443556701030938,
+            "Total Pay": 46675.32000000001,
+            "Average Pay": 120.29721649484537,
+            "Num Jobs": 388
+        },
+        "worker_1": {
+            "Total Time": 189.10999999999999,
+            "Average Time": 1.4659689922480619,
+            "Total Pay": 15221.439999999999,
+            "Average Pay": 117.99565891472866,
+            "Num Jobs": 129
+        },
+        "worker_2": {
+            "Total Time": 216.08999999999992,
+            "Average Time": 1.460067567567567,
+            "Total Pay": 16302.699999999999,
+            "Average Pay": 110.15337837837838,
+            "Num Jobs": 148
+        },
+        "worker_3": {
+            "Total Time": 446.51999999999964,
+            "Average Time": 1.6119855595667858,
+            "Total Pay": 32203.95000000003,
+            "Average Pay": 116.25974729241888,
+            "Num Jobs": 277
+        },
+        "worker_4": {
+            "Total Time": 181.01999999999995,
+            "Average Time": 1.459838709677419,
+            "Total Pay": 14250.890000000005,
+            "Average Pay": 114.92653225806455,
+            "Num Jobs": 124
+        },
+        "worker_5": {
+            "Total Time": 169.16000000000003,
+            "Average Time": 1.496991150442478,
+            "Total Pay": 13186.539999999995,
+            "Average Pay": 116.69504424778756,
+            "Num Jobs": 113
+        }
+    },
+    "sim_test_1": {
+        "worker_0": {
+            "Total Time": 663.12,
+            "Average Time": 1.5602823529411765,
+            "Total Pay": 50373.31999999997,
+            "Average Pay": 118.52545882352935,
+            "Num Jobs": 425
+        },
+        "worker_1": {
+            "Total Time": 155.23,
+            "Average Time": 1.5369306930693067,
+            "Total Pay": 11728.380000000001,
+            "Average Pay": 116.12257425742575,
+            "Num Jobs": 101
+        },
+        "worker_2": {
+            "Total Time": 225.49000000000012,
+            "Average Time": 1.5768531468531477,
+            "Total Pay": 17077.410000000007,
+            "Average Pay": 119.42244755244761,
+            "Num Jobs": 143
+        },
+        "worker_3": {
+            "Total Time": 374.4800000000002,
+            "Average Time": 1.4571206225680942,
+            "Total Pay": 29393.449999999993,
+            "Average Pay": 114.37140077821009,
+            "Num Jobs": 257
+        },
+        "worker_4": {
+            "Total Time": 167.48000000000002,
+            "Average Time": 1.5950476190476193,
+            "Total Pay": 12802.980000000001,
+            "Average Pay": 121.93314285714287,
+            "Num Jobs": 105
+        },
+        "worker_5": {
+            "Total Time": 154.90999999999997,
+            "Average Time": 1.475333333333333,
+            "Total Pay": 11661.39,
+            "Average Pay": 111.06085714285713,
+            "Num Jobs": 105
+        }
+    },
+    "sim_test_2": {
+        "worker_0": {
+            "Total Time": 652.4500000000008,
+            "Average Time": 1.5571599045346083,
+            "Total Pay": 49870.93999999999,
+            "Average Pay": 119.02372315035797,
+            "Num Jobs": 419
+        },
+        "worker_1": {
+            "Total Time": 182.50999999999993,
+            "Average Time": 1.4959836065573766,
+            "Total Pay": 14386.429999999991,
+            "Average Pay": 117.92155737704911,
+            "Num Jobs": 122
+        },
+        "worker_2": {
+            "Total Time": 206.4699999999999,
+            "Average Time": 1.4961594202898545,
+            "Total Pay": 16052.389999999996,
+            "Average Pay": 116.32166666666663,
+            "Num Jobs": 138
+        },
+        "worker_3": {
+            "Total Time": 352.91,
+            "Average Time": 1.4766108786610879,
+            "Total Pay": 27596.069999999985,
+            "Average Pay": 115.46472803347274,
+            "Num Jobs": 239
+        },
+        "worker_4": {
+            "Total Time": 192.83000000000004,
+            "Average Time": 1.593636363636364,
+            "Total Pay": 14829.569999999998,
+            "Average Pay": 122.5584297520661,
+            "Num Jobs": 121
+        },
+        "worker_5": {
+            "Total Time": 176.44000000000003,
+            "Average Time": 1.6040000000000003,
+            "Total Pay": 13166.479999999992,
+            "Average Pay": 119.69527272727265,
+            "Num Jobs": 110
+        }
+    },
+    "sim_test_3": {
+        "worker_0": {
+            "Total Time": 618.2199999999993,
+            "Average Time": 1.5378606965174113,
+            "Total Pay": 45995.699999999975,
+            "Average Pay": 114.41716417910442,
+            "Num Jobs": 402
+        },
+        "worker_1": {
+            "Total Time": 197.71,
+            "Average Time": 1.5567716535433072,
+            "Total Pay": 14700.730000000001,
+            "Average Pay": 115.75377952755906,
+            "Num Jobs": 127
+        },
+        "worker_2": {
+            "Total Time": 187.84000000000017,
+            "Average Time": 1.527154471544717,
+            "Total Pay": 14632.239999999998,
+            "Average Pay": 118.96130081300811,
+            "Num Jobs": 123
+        },
+        "worker_3": {
+            "Total Time": 424.3800000000002,
+            "Average Time": 1.4995759717314496,
+            "Total Pay": 33026.17000000001,
+            "Average Pay": 116.70024734982337,
+            "Num Jobs": 283
+        },
+        "worker_4": {
+            "Total Time": 175.14,
+            "Average Time": 1.4474380165289256,
+            "Total Pay": 14444.990000000002,
+            "Average Pay": 119.38008264462812,
+            "Num Jobs": 121
+        },
+        "worker_5": {
+            "Total Time": 198.8,
+            "Average Time": 1.5292307692307694,
+            "Total Pay": 16039.010000000002,
+            "Average Pay": 123.37700000000001,
+            "Num Jobs": 130
+        }
+    },
+    "sim_test_4": {
+        "worker_0": {
+            "Total Time": 604.7800000000002,
+            "Average Time": 1.4859459459459465,
+            "Total Pay": 46531.16000000003,
+            "Average Pay": 114.32717444717453,
+            "Num Jobs": 407
+        },
+        "worker_1": {
+            "Total Time": 181.99999999999994,
+            "Average Time": 1.5294117647058818,
+            "Total Pay": 14398.850000000004,
+            "Average Pay": 120.99873949579835,
+            "Num Jobs": 119
+        },
+        "worker_2": {
+            "Total Time": 191.00000000000006,
+            "Average Time": 1.4692307692307696,
+            "Total Pay": 15313.45,
+            "Average Pay": 117.79576923076924,
+            "Num Jobs": 130
+        },
+        "worker_3": {
+            "Total Time": 492.2100000000003,
+            "Average Time": 1.6244554455445555,
+            "Total Pay": 35486.06000000002,
+            "Average Pay": 117.11570957095716,
+            "Num Jobs": 303
+        },
+        "worker_4": {
+            "Total Time": 150.61,
+            "Average Time": 1.4208490566037737,
+            "Total Pay": 12527.770000000006,
+            "Average Pay": 118.18650943396231,
+            "Num Jobs": 106
+        },
+        "worker_5": {
+            "Total Time": 194.00000000000003,
+            "Average Time": 1.5275590551181104,
+            "Total Pay": 14504.750000000004,
+            "Average Pay": 114.21062992125987,
+            "Num Jobs": 127
+        }
+    }
+}

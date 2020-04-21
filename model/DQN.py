@@ -36,7 +36,7 @@ class LossHistory(keras.callbacks.Callback):
 
 class DQNAgent:
     def __init__(self, num_workers, num_steps, batch_size=16):
-        self._state_size = 1
+        self._state_size = 5
         self._num_agents = num_workers # output
         self._memory = deque(maxlen=num_steps)
         self._gamma = 0.95    # discount rate
@@ -60,10 +60,6 @@ class DQNAgent:
         model.add(Dense(40, activation='selu'))
         model.add(Dense(self._num_agents, activation='linear'))
         model.compile(optimizer=Adam(lr=self._learning_rate), loss='mse')
-
-        """
-            TODO: Ask Zach about different modes of compiling the model
-        """
 
         # model.compile(optimizer=Nadam(lr=self._learning_rate), loss='mse')
 

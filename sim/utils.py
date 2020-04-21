@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument(
         '--steps',
         help='Number of simulations to run for each epoch',
-        default=500, type=int, required=False
+        default=7500, type=int, required=False
     )
 
     parser.add_argument(

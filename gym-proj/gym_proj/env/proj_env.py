@@ -41,35 +41,35 @@ class ProjEnv(gym.Env):
         max_money = current_task.get_money() # How much money was available upon completion
         self._max_money += max_money
 
-        reward += (money_made / max_money) * 1.5 # Give this some weight in the equation
-        reward += (max_time / time_used)  # if you did it in more time than was estimated
+        reward += (money_made / max_money) * 4.5 # Give this some weight in the equation
+        reward += (time_used / max_time)  # if you did it in more time than was estimated
                                           # don't give as good of a reward
 
         # Give more motivation to get more tasks done
         if self._tasks_left/self._starting_num_tasks < .1: # Figured it out and did all the tasks in the time left
-            reward *= 4 
+            reward *= .4 
         elif self._tasks_left/self._starting_num_tasks < .25: # Figured it out and did all the tasks in the time left
-            reward *= 2
+            reward *= .2
         elif self._tasks_left/self._starting_num_tasks < .5: # Figured it out and did all the tasks in the time left
-            reward *= 1.5
+            reward *= .15
         elif self._tasks_left/self._starting_num_tasks < .75: # Figured it out and did all the tasks in the time left
-            reward *= 1.2
+            reward *= .12
         
         # All of the tasks are finished
         if self._time_left < 0:
             self._done = True
             # Got most of them done, good job!
             if self._tasks_left/self._starting_num_tasks < .2:
-                reward /= self._tasks_left/self._starting_num_tasks
-                reward /= self._money_made/self._max_money
+                # reward /= 1 - (self._tasks_left/self._starting_num_tasks)
+                reward /= 1 - (self._money_made/self._max_money)
             else:
-                reward *= -(1 - self._tasks_left/self._starting_num_tasks)
-                reward *= -(1 - self._money_made/self._max_money)
+                reward *= -(self._tasks_left/self._starting_num_tasks)
+                reward *= -(self._money_made/self._max_money)
 
         return reward
 
     def reset(self):
-        self._time_left = len(self._workers) * 20  * 5 # 20 hours a week, 5 days
+        self._time_left = len(self._workers) * 40  * 5 # 20 hours a week, 5 days
         # print(f'TIME LEFT: {self._time_left}')
         self._tasks_left = self._starting_num_tasks
         self._money_made = 0

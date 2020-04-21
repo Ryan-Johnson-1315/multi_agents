@@ -5,6 +5,7 @@
 # project
 logs
 .vscode
+*.h5
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

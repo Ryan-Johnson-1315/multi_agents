@@ -31,6 +31,8 @@
 #         score = round((1 - time_score) + money_score, 2)
 #         output = f'''
 
+
+
 # **********************************************
 # Round: {i}
 # ==============================================
@@ -87,6 +89,7 @@ if __name__ == "__main__":
         next_task = tasks.pop()
         curr_state = np.asarray(env.reset() + next_task.to_arr(), dtype=np.float32)
 
+        curr_state = np.reshape(curr_state, [1, 5])
 
         # worker_id is the action
         worker_id = model.predict(curr_state) # Start with a brand new state 
@@ -96,6 +99,7 @@ if __name__ == "__main__":
             next_task = tasks.pop()
             next_state += next_task.to_arr()
             next_state = np.asarray(next_state, dtype=np.float32)
+            next_state = np.reshape(next_state, [1, 5])
 
 
             model.remember(curr_state, worker_id, overall_reward, next_state, done)
@@ -107,64 +111,80 @@ if __name__ == "__main__":
             worker_id = model.predict(curr_state)
         model.train()
 
+    model.save('configs/model.h5')
 
-print(f'Evaluating')
-log = open('ouput.log', 'w')
-stats = defaultdict(list)
-for n in tqdm(range(0, 5)):
-    _, tasks = config_sim(e_config)
-    # Evaluate
-    next_task = tasks.pop()
-    curr_state = np.asarray(env.reset() + next_task.to_arr(), dtype=np.float32)
-
-    worker_id = model.predict(curr_state) # Start with a brand new state 
-    max_money = 0
-    max_time = 0
-    for i in range(args.steps):
-        log.write(f'Current Task:\n')
-        log.write(f'\tMoney ${next_task.get_money()}:\n')
-        log.write(f'\tTime {next_task.get_time()}:\n')
-        log.write(f'Worker: {worker_id}\n')
-        log.write(f'Money earned: ${round(curr_state[0], 2)}\n')
-        log.write(f'Time Left: {curr_state[1]}\n')
-        log.write(f'Tasks Left: {curr_state[2]}\n')
-        log.write('==========================\n')
-
-
-        next_state, reward, done = env.step(worker_id, next_task)
+    print(f'Evaluating')
+    log = open('ouput.log', 'w')
+    sims = {}
+    for n in tqdm(range(5)):
+        stats = defaultdict(list)
+        _, tasks = config_sim(e_config)
+        # Evaluate
         next_task = tasks.pop()
-        next_state += next_task.to_arr()
-        next_state = np.asarray(next_state, dtype=np.float32)
+        curr_state = np.asarray(env.reset() + next_task.to_arr(), dtype=np.float32)
+        curr_state = np.reshape(curr_state, [1, 5])
 
-        max_time += next_task.get_time()
-        max_money += next_task.get_money()
+        worker_id = model.predict(curr_state) # Start with a brand new state 
+        max_money = 0
+        max_time = 0
+        for i in range(args.steps):
+            # log.write(f'Current Task:\n')
+            # log.write(f'\tMoney ${next_task.get_money()}:\n')
+            # log.write(f'\tTime {next_task.get_time()}:\n')
+            # log.write(f'Worker: {worker_id}\n')
+            # log.write(f'Money earned: ${curr_state[0][0]}\n')
+            # log.write(f'Time Left: {curr_state[0][1]}\n')
+            # log.write(f'Tasks Left: {curr_state[0][2]}\n')
+            # log.write('==========================\n')
 
-        stats[f'{worker_id}'].append(next_task.to_arr())
+            stats[f'{worker_id}'].append(next_task.to_arr())
+            next_state, reward, done = env.step(worker_id, next_task)
+            next_task = tasks.pop()
+            next_state += next_task.to_arr()
+            next_state = np.asarray(next_state, dtype=np.float32)
+            next_state = np.reshape(next_state, [1, 5])
 
 
-        if done:
-            break
-        curr_state = next_state
-        curr_state = np.asarray(curr_state, dtype=np.float32)
-        worker_id = model.predict(curr_state)
-    log.write(f'Max money: ${max_money}\n')
-    log.write(f'Max time: {max_time}\n')
-    log.write('==============================================================================\n')
+            max_time += next_task.get_time()
+            max_money += next_task.get_money()
 
-json.dump(stats, open('configs/all_stats.json', 'w'))
 
-data = {}
-for key in sorted(stats):
-    time = 0
-    money = 0
-    for d in stats[key]:
-        time += d[0]
-        money += d[1]
-    data[f'worker_{key}'] = {
-        'Average Time': time/len(stats[key]), 
-        'Average Money': money/len(stats[key]), 
-        'Num Tasks': len(stats[key]),
-        'Total Money': money,
-        'Total Time': time
-    }
-json.dump(data, open('configs/averages.json', 'w'))
+
+            if done:
+                break
+            curr_state = next_state
+            curr_state = np.asarray(curr_state, dtype=np.float32)
+            curr_state = np.reshape(curr_state, [1, 5])
+
+            worker_id = model.predict(curr_state)
+        sims[f'test_{n}'] = stats
+        
+
+    # json.dump(sims, open('configs/all_stats.json', 'w'))
+    tmp = {}
+    works = {}
+    for i in sims:
+        for worker in sorted(sims[i]):
+        
+            num_jobs = len(sims[i][worker])
+            time = 0
+            pay  = 0
+        
+            for job in sims[i][worker]:
+                time += job[0]
+                pay  += job[1]
+
+            works[f'worker_{worker}'] = {
+                'Total Time': time,
+                'Average Time': float(time / num_jobs),
+                'Total Pay': pay,
+                'Average Pay': float(pay / num_jobs),
+                'Num Jobs': num_jobs
+            }
+        tmp[f'sim_{i}'] = works
+        works = {}
+
+    for c, w in enumerate(workers):
+        print(f'{c}. {w}')
+
+    json.dump(tmp, open('configs/averages.json', 'w'))
