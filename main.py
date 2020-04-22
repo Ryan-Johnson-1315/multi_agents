@@ -12,7 +12,7 @@ from gym_proj.env.proj_env import *
 
 if __name__ == "__main__":
     args = parse_args()
-    m_config, e_config = load_configs(args)
+    e_config = load_configs(args)
     workers, tasks = config_sim(e_config)
 
 
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     #         3: Current Task
     for epoch in tqdm(range(args.epochs)):
         overall_reward = 0
-        _, tasks = config_sim(e_config) # Workers are alwasy the same
+        _, tasks = config_sim(e_config) # Workers are always the same
         next_task = tasks.pop()
         curr_state = np.asarray(env.reset() + next_task.to_arr(), dtype=np.float32)
 
@@ -38,6 +38,8 @@ if __name__ == "__main__":
         for i in range(args.steps):
             next_state, reward, done = env.step(worker_id, next_task)
             overall_reward += reward
+            if len(tasks) < 1:
+                _, tasks = config_sim(e_config)
             next_task = tasks.pop()
             next_state += next_task.to_arr()
             next_state = np.asarray(next_state, dtype=np.float32)
@@ -46,17 +48,17 @@ if __name__ == "__main__":
 
             model.remember(curr_state, worker_id, overall_reward, next_state, done)
             if done:
-                model.update_target_model()
                 break
             curr_state = next_state
             curr_state = np.asarray(curr_state, dtype=np.float32)
             worker_id = model.predict(curr_state)
+        
+        model.update_target_model()
         model.train()
 
     model.save('configs/model.h5')
 
     print(f'Evaluating')
-    log = open('ouput.log', 'w')
     sims = {}
     for n in tqdm(range(5)):
         stats = defaultdict(list)

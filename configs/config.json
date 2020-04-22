@@ -7,7 +7,7 @@
         "money_increment": 0.12,  "// next worker will take n% of the pay": ""
     }, 
     "tasks": {
-        "total": 10000,
+        "total": 1000,
         "time_money_ratio": {
             "min": 0.5, "// % of an hour": "",
             "max": 2.55

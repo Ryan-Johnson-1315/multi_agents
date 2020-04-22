@@ -19,24 +19,24 @@ if __name__ == "__main__":
 
 
     data = json.load(open(args.file, 'r'))
-    sim_count = 1
+    sim_count = 0
     for simulation in data:
         fig, ax = plt.subplots()
-        avg_t = []
-        avg_p = []
+        # avg_t = []
+        # avg_p = []
         num_t = []
         bar_width = .35
         n_groups = len(data[simulation])
         
         index = np.arange(n_groups)  # number of things to graph
         for worker in data[simulation]:
-            avg_t.append(data[simulation][worker]["Average Time"])
-            avg_p.append(data[simulation][worker]["Average Pay"])
+            # avg_t.append(data[simulation][worker]["Average Time"])
+            # avg_p.append(data[simulation][worker]["Average Pay"])
             num_t.append(data[simulation][worker]["Num Jobs"])
             
             
-        data1 = plt.bar(index, avg_t, bar_width, alpha=opacity, color='g', label='Average time per job')
-        data2 = plt.bar(index + bar_width, avg_p, bar_width, alpha=opacity, color='b', label='Average pay per job')
+        # data1 = plt.bar(index, avg_t, bar_width, alpha=opacity, color='g', label='Average time per job')
+        # data2 = plt.bar(index + bar_width, avg_p, bar_width, alpha=opacity, color='b', label='Average pay per job')
         data3 = plt.bar(index + 2*bar_width, num_t, bar_width, alpha=opacity, color='r', label='Number of jobs rewarded')
         
         for i in ax.patches:

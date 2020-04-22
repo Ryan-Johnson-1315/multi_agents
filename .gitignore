@@ -3,9 +3,10 @@
 # Edit at https://www.gitignore.io/?templates=python,visualstudiocode
 
 # project
-logs
+*.log
 .vscode
 *.h5
+*.png
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
