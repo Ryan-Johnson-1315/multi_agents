@@ -61,11 +61,6 @@ class DQNAgent:
         model.add(Dense(self._num_agents, activation='linear'))
         model.compile(optimizer=Adam(lr=self._learning_rate), loss='mse')
 
-        # model.compile(optimizer=Nadam(lr=self._learning_rate), loss='mse')
-
-        # # model.add(Dense(self._num_agents, activation='softmax'))
-        # # model.compile(loss='mse', optimizer=Adam(lr=self._learning_rate))
-        # model.compile(loss='binary_crossentropy', optimizer=Nadam(lr=self._learning_rate))
         return model
 
     def update_target_model(self):
@@ -90,12 +85,6 @@ class DQNAgent:
         minibatch = random.sample(self._memory, self._batch_size)
         for state, action, reward, next_state, done in minibatch:
             target = reward
-            # print(f'State: {state}')
-            # print(f'action: {action}')
-            # print(f'reward: {reward}')
-            # print(f'next_state: {next_state}')
-            # print(f'done: {done}')
-            
             if not done:
                 # next_state = np.reshape(next_state, [1, self._state_size])
                 Q_next = self._model.predict(next_state)[0]
@@ -107,19 +96,21 @@ class DQNAgent:
             #train network
             history = LossHistory()
             history = self._model.fit(state, target_f, epochs=1, verbose=0, callbacks=[history])
-        # print(history.history)
         self._decay_epsilon()
+
 
     def _decay_epsilon(self):
         self._count += 1
         if self._epsilon > self._epsilon_min:
             self._epsilon *= self._epsilon_decay
 
+
     def load(self, name, use_weights=True):
         if use_weights:
             self._model.load_weights(name)
         else:
             self._model = load_model(name)
+
 
     def save(self, name):
         self._model.save_weights(name.replace('.h5', '-weights.h5'))
