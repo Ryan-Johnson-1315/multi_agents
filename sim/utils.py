@@ -19,7 +19,7 @@ def parse_args():
 
     parser.add_argument(
         '--epochs',
-        default=150, type=int, required=False
+        default=100, type=int, required=False
     )
     return parser.parse_args()
 

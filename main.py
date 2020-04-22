@@ -74,6 +74,9 @@ if __name__ == "__main__":
         for i in range(args.steps):
             stats[f'{worker_id}'].append(next_task.to_arr())
             next_state, reward, done = env.step(worker_id, next_task)
+            if len(tasks) < 1:
+               _, tasks = config_sim(e_config)
+          
             next_task = tasks.pop()
             next_state += next_task.to_arr()
             next_state = np.asarray(next_state, dtype=np.float32)
