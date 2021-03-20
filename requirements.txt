@@ -13,7 +13,7 @@ gym==0.17.1
 -e git+https://github.com/Ryan-Johnson-1315/multi_agents.git@8f6ed500c1a13c767e2fe35b054715345b88d573#egg=gym_proj&subdirectory=gym-proj
 h5py==2.10.0
 itsdangerous==1.1.0
-Jinja2==2.10.3
+Jinja2==2.11.3
 Keras==2.3.1
 Keras-Applications==1.0.8
 Keras-Preprocessing==1.1.0
